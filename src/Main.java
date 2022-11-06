@@ -21,14 +21,17 @@ public class Main {
         System.out.println("Minors found: " + minorCount);
         //Список фамилий призывников
         List<String> conscriptsList = persons.stream()
-                .filter(x -> x.getAge() >= 18 && x.getAge() <= 27 && x.getSex() == Sex.MAN)
+                .filter(x -> x.getSex() == Sex.MAN)
+                .filter(y -> y.getAge() >= 18)
+                .filter(z -> z.getAge() <= 27)
                 .map(Person::getFamily).toList();
         System.out.println("Conscript man list with surname: " + conscriptsList);
         //Отсортированный по фамилии список потенциально работоспособных людей с высшим образованием
         List<String> workClassList = persons.stream()
                 .filter(x -> (x.getEducation() == Education.HIGHER))
-                .filter(y -> (y.getAge() >= 18 && ((y.getSex() == Sex.MAN && y.getAge() <= 65)
-                        || (y.getSex() == Sex.WOMAN && y.getAge() <= 60))))
+                .filter(y -> (y.getAge() >= 18))
+                .filter(z -> (z.getSex() == Sex.MAN && z.getAge() <= 65)
+                || (z.getSex() == Sex.WOMAN && z.getAge() <= 60))
                 .sorted(Comparator.comparing(Person::getFamily))
                 .map(Person::getFamily).toList();
         System.out.println("List of alphabetically sorted surname working class: " + workClassList);
